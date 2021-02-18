@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, switchMap } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { fromFetch } from 'rxjs/fetch';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'app-jobs',
@@ -15,7 +13,6 @@ export class JobsComponent implements OnInit {
 
   private location = 'sydney';
   private stackOverFlowJobsRssFeedUrl = `http://careers.stackoverflow.com/jobs/feed?location=${this.location}`;
-  
   constructor(private http: HttpClient) { }
 
   private getData$(url: string): Observable<any> {
@@ -37,21 +34,24 @@ export class JobsComponent implements OnInit {
   ngOnInit(): void {
 
     // basic http get request
-    this.getData$(this.stackOverFlowJobsRssFeedUrl)
-      .subscribe((x) => {
-        console.log(x);
-      });
-    
-    //rxjs fetch method - stackoverflow
-    this.stackOverflowJobs$.subscribe({
-      next: result => console.log('stackoverflow jobs:',result),
-      complete: () => console.log('stackoverflow done')
-    });
+    // this.getData$(this.stackOverFlowJobsRssFeedUrl)
+    //   .subscribe((x) => {
+    //     console.log(x);
+    //   });
 
     //rxjs fetch method - githubjobs
-    this.gitHubJobs$.subscribe({
-      next: result => console.log('github jobs:',result),
-      complete: () => console.log('github done')
+    // this.gitHubJobs$.subscribe({
+    //   next: result => console.log('github jobs:',result),
+    //   complete: () => console.log('github done')
+    // });
+
+    // using proxy
+    const fetchUsingProxy$ = fromFetch(`/jobs/feed?location=${this.location}`, {
+      selector: response => response.json()
     });
+    
+    fetchUsingProxy$.subscribe((x) => {
+      console.log(x);
+    })
   }
 }
