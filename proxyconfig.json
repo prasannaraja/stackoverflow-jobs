@@ -1,5 +1,5 @@
 {
-  "/jobs": {
+  "/api/jobs": {
      "target":  {
        "host": "https://stackoverflow.com",
        "protocol": "https:",
