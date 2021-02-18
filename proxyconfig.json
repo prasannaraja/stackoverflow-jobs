@@ -1,0 +1,24 @@
+{
+  "/cat-fact.herokuapp/*": {
+    "target": "https://cat-fact.herokuapp.com",
+    "secure": true,
+    "loglevel": "debug",
+    "changeOrigin": true
+  },
+  "/stackoverflow/*": {
+    "target": "https://stackoverflow.com",
+    "secure": true,
+    "loglevel": "debug",
+    "changeOrigin": true
+  },
+  "/angular": {
+     "target":  {
+       "host": "github.com",
+       "protocol": "https:",
+       "port": 443
+     },
+     "secure": false,
+     "changeOrigin": true,
+     "logLevel": "info"
+  }
+}
