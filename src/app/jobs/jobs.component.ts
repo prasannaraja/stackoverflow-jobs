@@ -34,19 +34,19 @@ export class JobsComponent implements OnInit {
   ngOnInit(): void {
 
     // basic http get request
-    // this.getData$(this.stackOverFlowJobsRssFeedUrl)
-    //   .subscribe((x) => {
-    //     console.log(x);
-    //   });
+    this.getData$(this.stackOverFlowJobsRssFeedUrl)
+      .subscribe((x) => {
+        console.log(x);
+      });
 
-    //rxjs fetch method - githubjobs
-    // this.gitHubJobs$.subscribe({
-    //   next: result => console.log('github jobs:',result),
-    //   complete: () => console.log('github done')
-    // });
+    // rxjs fetch method - githubjobs
+    this.gitHubJobs$.subscribe({
+      next: result => console.log('github jobs:',result),
+      complete: () => console.log('github done')
+    });
 
     // using proxy
-    const fetchUsingProxy$ = fromFetch(`/jobs/feed?location=${this.location}`, {
+    const fetchUsingProxy$ = fromFetch(`/api/jobs/feed?location=${this.location}`, {
       selector: response => response.json()
     });
     
