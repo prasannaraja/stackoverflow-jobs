@@ -1,6 +1,16 @@
-<mat-card>
-    <mat-card-title>Title</mat-card-title>
-    <mat-card-subtitle>title 2</mat-card-subtitle>
-    <mat-card-content>main content</mat-card-content>
-    <mat-card-footer>footer</mat-card-footer>
-</mat-card>
+<ng-container *ngIf="job$ | async as channel">
+    <ng-container *ngFor="let ch of channel;">
+        <ng-container *ngFor="let item of ch.item;">
+            <p-card header="{{item.title}}" [style]="{'width': '25rem', 'margin-bottom': '2em'}">
+                <div class="p-d-flex p-ai-center">
+                    <ng-container *ngFor="let cat of item?.category;">
+                        <p-chip label="{{cat}}" [removable]="true"></p-chip>
+                    </ng-container>
+                </div>
+                <ng-container *ngFor="let desc of item?.description;">
+                    <div innerHTML="{{desc}}"></div>
+                </ng-container>
+            </p-card>
+        </ng-container>
+    </ng-container>
+</ng-container>

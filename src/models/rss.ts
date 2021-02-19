@@ -30,5 +30,5 @@ export interface Rss {
 }
 
 export interface StackOverFlowJobs {
-  rss: Rss;
+  rss?: Rss;
 }

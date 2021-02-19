@@ -1,10 +1,10 @@
 import * as xml2js from 'xml2js';
 
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Channel, StackOverFlowJobs } from 'src/models/rss';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
-import { StackOverFlowJobs } from 'src/models/rss';
 import { parse } from 'path';
 
 @Component({
@@ -17,6 +17,7 @@ export class JobsComponent implements OnInit {
   private location = 'sydney';
   private query = `location=${this.location}`;
   private path = 'jobs/feed';
+  public job$= new BehaviorSubject<Channel[]|undefined>([]);
 
   constructor(private http: HttpClient) {}
 
@@ -45,7 +46,8 @@ export class JobsComponent implements OnInit {
             throw err;
           }
           const jobs: StackOverFlowJobs = result as StackOverFlowJobs;
-          console.log(jobs.rss);
+          this.job$.next(jobs.rss?.channel);
+          console.log(this.job$.value);
         });
       },
       (error) => {
