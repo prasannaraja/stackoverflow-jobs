@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, bindNodeCallback } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { Observable } from 'rxjs';
 import { fromFetch } from 'rxjs/fetch';
 
 @Component({
@@ -19,17 +20,14 @@ export class JobsComponent implements OnInit {
   constructor(private http: HttpClient) { }
     
   private get stackOverflowJobs$(): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', }), responseType: 'text' as 'json' };
     const proxyURL = `${this.proxyPrefix}/${this.path}?${this.query}`;
-    return fromFetch(proxyURL, {
-      selector: response => response.json()
-    });   
+    return this.http.get<any>(proxyURL, httpOptions);
   }
-    
+   
   ngOnInit(): void {
 
-    this.stackOverflowJobs$.subscribe({
-      next: result => console.log('jobs:',result),
-      complete: () => console.log('done')
-    });
+    this.stackOverflowJobs$
+      .subscribe(console.log);
   }
 }
