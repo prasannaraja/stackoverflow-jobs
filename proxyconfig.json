@@ -1,12 +1,9 @@
 {
-  "/api/jobs": {
-     "target":  {
-       "host": "https://stackoverflow.com",
-       "protocol": "https:",
-       "port": 443
-     },
-     "secure": false,
-     "changeOrigin": true,
-     "logLevel": "info"
+  "/proxy/*": {
+  "target": "https://stackoverflow.com",
+  "secure": false,
+  "changeOrigin": true,
+  "logLevel": "debug",
+  "pathRewrite": {"^/proxy" : ""}
   }
 }
