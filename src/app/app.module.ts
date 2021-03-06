@@ -14,10 +14,15 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TabViewModule } from 'primeng/tabview';
 import { AvatarModule } from 'primeng/avatar';
-
+import { TitleCasePipe } from './core/title-case-pipe';
 
 @NgModule({
-  declarations: [AppComponent, JobsComponent, PageNotFoundComponent],
+  declarations: [
+    AppComponent,
+    JobsComponent,
+    PageNotFoundComponent,
+    TitleCasePipe,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
