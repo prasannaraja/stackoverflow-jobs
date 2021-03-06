@@ -64,21 +64,34 @@ export class JobsComponent implements OnInit {
     const jobsTree$ = this.jobs$.pipe(
       switchMap((ch) => {
         this.jobsSubject.next(ch);
-        return this.getFiles();
+        return this.getTreeNodes(ch);
       })
     );
 
-    jobsTree$.subscribe((files) => {
-      this.jobsTreeSubject.next(files);
+    jobsTree$.subscribe((nodes) => {
+      this.jobsTreeSubject.next(nodes);
       this.loading$.next(false);
     });
   }
 
-  getFiles() {
-    return this.http
-      .get<any>('assets/files.json')
-      .toPromise()
-      .then((res) => <TreeNode[]>res.data);
+  getTreeNodes(ch: Channel[]) {
+    return ch.map((c) =>
+      c.item.map((i) => {
+        console.log(i);
+        return {
+          label: i.title[0],
+          data: 'Documents Folder',
+          expandedIcon: 'pi pi-folder-open',
+          collapsedIcon: 'pi pi-folder',
+          children: [],
+        };
+      }) as TreeNode[]
+    );
+
+    // return this.http
+    //   .get<any>('assets/files.json')
+    //   .toPromise()
+    //   .then((res) => <TreeNode[]>res.data);
   }
 
   customFilter(job$: BehaviorSubject<Channel[] | undefined>) {
