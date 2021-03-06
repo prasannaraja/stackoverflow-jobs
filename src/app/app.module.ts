@@ -15,7 +15,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TabViewModule } from 'primeng/tabview';
 import { AvatarModule } from 'primeng/avatar';
 import { TitleCasePipe } from './core/title-case-pipe';
-
+import { TreeModule } from 'primeng/tree';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +36,7 @@ import { TitleCasePipe } from './core/title-case-pipe';
     BadgeModule,
     ProgressSpinnerModule,
     AvatarModule,
+    TreeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
