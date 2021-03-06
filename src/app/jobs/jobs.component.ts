@@ -34,7 +34,7 @@ export class JobsComponent implements OnInit {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       responseType: 'text' as 'json',
     };
-    return this.http.get<any>(this.sydneyJobsUrl, httpOptions);
+    return this.http.get<any>(this.allJobsUrl, httpOptions);
   }
 
   ngOnInit(): void {

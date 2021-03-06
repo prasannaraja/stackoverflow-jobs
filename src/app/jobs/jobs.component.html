@@ -4,11 +4,12 @@
         animationDuration=".5s">
     </p-progressSpinner>
 </ng-container>
-<mat-drawer-container>
-    <mat-drawer mode="side" opened>Drawer content</mat-drawer>
-    <mat-drawer-content>
-        <div class="p-grid">
-            <ng-container *ngIf="job$|async as channel">
+<ng-container *ngIf="job$|async as channel">
+    <h1>{{channel[0]?.title|titleCase}}</h1>
+    <mat-drawer-container>
+        <mat-drawer mode="side" opened>Drawer content</mat-drawer>
+        <mat-drawer-content>
+            <div class="p-grid">
                 <ng-container *ngFor="let ch of channel;">
                     <ng-container *ngFor="let item of ch.item;">
                         <div class="p-col-12 p-md-4">
@@ -19,10 +20,15 @@
                                         <p-chip label="{{cat}}" styleClass="p-mr-2 custom-chip"></p-chip>
                                     </ng-container>
                                 </div>
+                                <div>
+                                    <a href="{{item.link}}">Open</a>
+                                    <div>{{item.pubDate[0]}}</div>
+                                </div>
                                 <br />
                                 <p-avatar label="P" styleClass="p-mr-2" size="xlarge"></p-avatar>
                                 <div>
                                     <ng-container *ngFor="let desc of item?.description;">
+                                        <!-- <div>{{item?.location[0]._}}</div> -->
                                         <!-- <div class="desc" innerHTML="{{desc}}"></div> -->
                                     </ng-container>
                                 </div>
@@ -30,8 +36,8 @@
                         </div>
                     </ng-container>
                 </ng-container>
-            </ng-container>
-        </div>
-    </mat-drawer-content>
-</mat-drawer-container>
 
+            </div>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</ng-container>
