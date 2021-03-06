@@ -4,11 +4,13 @@
         animationDuration=".5s">
     </p-progressSpinner>
 </ng-container>
-<ng-container *ngIf="job$|async as channel">
+<ng-container *ngIf="jobsSubject|async as channel">
     <h1>{{channel[0]?.title|titleCase}}</h1>
     <mat-drawer-container>
         <mat-drawer mode="side" opened>
-            <p-tree [value]="files1"></p-tree>
+            <ng-container *ngIf="jobsTreeSubject|async as data">
+                <p-tree [value]="data"></p-tree>
+            </ng-container>
         </mat-drawer>
         <mat-drawer-content>
             <div class="p-grid">

@@ -5,7 +5,7 @@ export interface Image {
 }
 
 export interface Location {
-  _: string;
+  place: string;
 }
 
 export interface Item {
@@ -30,5 +30,5 @@ export interface Rss {
 }
 
 export interface StackOverFlowJobs {
-  rss?: Rss;
+  rss: Rss;
 }

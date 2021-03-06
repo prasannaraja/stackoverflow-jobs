@@ -1,10 +1,10 @@
 import * as xml2js from 'xml2js';
 
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Channel, StackOverFlowJobs } from 'src/models/rss';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Channel, Rss, StackOverFlowJobs } from 'src/models/rss';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { delay, map, switchMap, tap } from 'rxjs/operators';
+import { concatMap, delay, map, switchMap, tap } from 'rxjs/operators';
 import { TreeNode } from 'primeng/api';
 
 @Component({
@@ -17,9 +17,9 @@ export class JobsComponent implements OnInit {
   private location = 'sydney';
   private query = `location=${this.location}`;
   private path = 'jobs/feed';
-  public job$ = new BehaviorSubject<Channel[] | undefined>([]);
   public loading$ = new BehaviorSubject<boolean>(false);
-  public files1: TreeNode[] = [];
+  public jobsSubject = new BehaviorSubject<Channel[]>([]);
+  public jobsTreeSubject = new BehaviorSubject<TreeNode[]>([]);
 
   constructor(private http: HttpClient) {}
 
@@ -31,7 +31,7 @@ export class JobsComponent implements OnInit {
     return `${this.proxyPrefix}/${this.path}`;
   }
 
-  private get stackOverflowJobs$(): Observable<any> {
+  public get stackOverflowJobs$(): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       responseType: 'text' as 'json',
@@ -39,36 +39,39 @@ export class JobsComponent implements OnInit {
     return this.http.get<any>(this.allJobsUrl, httpOptions);
   }
 
+  private get jobs$(): Observable<Channel[]> {
+    return this.stackOverflowJobs$.pipe(
+      tap(() => this.loading$.next(true)),
+      map((data) => this.mapXmlToJson(data))
+    );
+  }
+
+  private mapXmlToJson(data: any): Channel[] {
+    const channel$ = new BehaviorSubject<Channel[]>([]);
+    const p: xml2js.Parser = new xml2js.Parser();
+    p.parseString(data, (err: any, result: any) => {
+      if (err) {
+        throw err;
+      }
+      this.loading$.next(false);
+      const jsonData = result as StackOverFlowJobs;
+      channel$.next(jsonData.rss.channel);
+    });
+    return channel$.value;
+  }
+
   ngOnInit(): void {
-    this.stackOverflowJobs$
-      .pipe(
-        tap(() => this.loading$.next(true)),
-        delay(500)
-      )
-      .subscribe(
-        (data) => {
-          const p: xml2js.Parser = new xml2js.Parser();
-          p.parseString(data, (err: any, result: any) => {
-            if (err) {
-              throw err;
-            }
+    const jobsTree$ = this.jobs$.pipe(
+      switchMap((ch) => {
+        this.jobsSubject.next(ch);
+        return this.getFiles();
+      })
+    );
 
-            const jobs: StackOverFlowJobs = result as StackOverFlowJobs;
-
-            this.job$.next(jobs.rss?.channel);
-            this.loading$.next(false);
-
-            // console.log(this.job$.value);
-            this.customFilter(this.job$);
-          });
-        },
-        (error) => {
-          console.log(error, 'err');
-          this.loading$.next(false);
-        }
-      );
-
-    this.getFiles().then((files) => (this.files1 = files));
+    jobsTree$.subscribe((files) => {
+      this.jobsTreeSubject.next(files);
+      this.loading$.next(false);
+    });
   }
 
   getFiles() {
