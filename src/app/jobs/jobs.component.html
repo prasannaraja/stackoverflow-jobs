@@ -7,7 +7,9 @@
 <ng-container *ngIf="job$|async as channel">
     <h1>{{channel[0]?.title|titleCase}}</h1>
     <mat-drawer-container>
-        <mat-drawer mode="side" opened>Drawer content</mat-drawer>
+        <mat-drawer mode="side" opened>
+            <p-tree [value]="files1"></p-tree>
+        </mat-drawer>
         <mat-drawer-content>
             <div class="p-grid">
                 <ng-container *ngFor="let ch of channel;">
