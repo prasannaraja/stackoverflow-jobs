@@ -11,7 +11,10 @@ import { JobsComponent } from './jobs/jobs.component';
 import { MaterialModule } from './material-module';
 import { NgModule } from '@angular/core';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TabViewModule } from 'primeng/tabview';
+import { AvatarModule } from 'primeng/avatar';
+
 
 @NgModule({
   declarations: [AppComponent, JobsComponent, PageNotFoundComponent],
@@ -26,6 +29,8 @@ import { TabViewModule } from 'primeng/tabview';
     TabViewModule,
     ChipModule,
     BadgeModule,
+    ProgressSpinnerModule,
+    AvatarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
