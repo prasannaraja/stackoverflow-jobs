@@ -1,5 +1,69 @@
+// :host ::ng-deep {
+//   .desc {
+//     display: unset;
+//     font-size: smaller;
+//     white-space: nowrap;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//   }
+//   .inline-block-list {
+//     /* ul or ol with this class */
+//     font-size: 0;
+//   }
+
+//   .inline-block-list li {
+//     font-size: 14px; /* put the font-size back */
+//     margin-left: -4px;
+//   }
+
+//   .p-card .p-card-title {
+//     font-size: 14px !important;
+//   }
+//   .p-chip {
+//     font-weight: bold;
+//     font-size: 12px !important;
+//   }
+// }
+
+.app-container {
+  width: 70%;
+  margin: auto;
+  font-family: Lato;
+}
+
+.example-button-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.example-button-row button,
+.example-button-row a {
+  margin-right: 8px;
+}
+
+.example-header-image {
+  background-image: url("https://www.bing.com/th?id=OIP.RlDfNIo3DOeaJ08ncrdukwHaHa&pid=Api");
+  background-size: cover;
+}
 
 :host ::ng-deep .p-chip.custom-chip {
-    background: var(--primary-color);
-    color: var(--primary-color-text);
+  background: var(--primary-color);
+  color: var(--primary-color-text);
+}
+
+:host ::ng-deep .p-chip {
+  font-size: 12px !important;
+}
+
+:host ::ng-deep h5 {
+  font-weight: bold;
+}
+
+:host ::ng-deep mat-drawer {
+  width: 15%;
+}
+
+:host ::ng-deep mat-drawer-content {
+  padding-left: 15px;
 }

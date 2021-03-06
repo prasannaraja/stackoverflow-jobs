@@ -1,16 +1,37 @@
-<ng-container *ngIf="job$ | async as channel">
-    <ng-container *ngFor="let ch of channel;">
-        <ng-container *ngFor="let item of ch.item;">
-            <p-card header="{{item.title}}" [style]="{'width': '25rem', 'margin-bottom': '2em'}">
-                <div class="p-d-flex p-ai-center">
-                    <ng-container *ngFor="let cat of item?.category;">
-                        <p-chip label="{{cat}}" [removable]="true"></p-chip>
-                    </ng-container>
-                </div>
-                <ng-container *ngFor="let desc of item?.description;">
-                    <div innerHTML="{{desc}}"></div>
-                </ng-container>
-            </p-card>
-        </ng-container>
-    </ng-container>
+<ng-container *ngIf="loading$|async as loading">
+    <p-progressSpinner *ngIf="loading"
+        [style]="{width: '50px', height: '50px', position: 'absolute',top:'35%',left:'50%'}" strokeWidth="8"
+        animationDuration=".5s">
+    </p-progressSpinner>
 </ng-container>
+<mat-drawer-container>
+    <mat-drawer mode="side" opened>Drawer content</mat-drawer>
+    <mat-drawer-content>
+        <div class="p-grid">
+            <ng-container *ngIf="job$|async as channel">
+                <ng-container *ngFor="let ch of channel;">
+                    <ng-container *ngFor="let item of ch.item;">
+                        <div class="p-col-12 p-md-4">
+                            <div class="card">
+                                <h5>{{item.title}}</h5>
+                                <div class="p-d-flex p-ai-center">
+                                    <ng-container *ngFor="let cat of item?.category;">
+                                        <p-chip label="{{cat}}" styleClass="p-mr-2 custom-chip"></p-chip>
+                                    </ng-container>
+                                </div>
+                                <br />
+                                <p-avatar label="P" styleClass="p-mr-2" size="xlarge"></p-avatar>
+                                <div>
+                                    <ng-container *ngFor="let desc of item?.description;">
+                                        <!-- <div class="desc" innerHTML="{{desc}}"></div> -->
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>
+
