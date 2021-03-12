@@ -1,10 +1,10 @@
 import * as xml2js from 'xml2js';
 
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Channel, Rss, StackOverFlowJobs } from 'src/models/rss';
+import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
+import { Channel, StackOverFlowJobs } from 'src/models/stackOverFlow.model';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { concatMap, delay, map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { TreeNode } from 'primeng/api';
 
 @Component({
@@ -20,6 +20,7 @@ export class JobsComponent implements OnInit {
   public loading$ = new BehaviorSubject<boolean>(false);
   public jobsSubject = new BehaviorSubject<Channel[]>([]);
   public jobsTreeSubject = new BehaviorSubject<TreeNode[]>([]);
+  public channelSubject = new BehaviorSubject<Channel[]>([]);
 
   constructor(private http: HttpClient) {}
 
@@ -69,15 +70,20 @@ export class JobsComponent implements OnInit {
     );
 
     jobsTree$.subscribe((nodes) => {
-      this.jobsTreeSubject.next(nodes);
+      //this.jobsTreeSubject.next(nodes[0]);
       this.loading$.next(false);
     });
   }
 
   getTreeNodes(ch: Channel[]) {
+    this.channelSubject.next(ch);
+    // return this.channelSubject.pipe(
+    //   map((x) => x.map((i) => i.item.filter((c) => c.location!!))),
+    //   map(f => forkJoin(f)),
+    // );
+
     return ch.map((c) =>
       c.item.map((i) => {
-        console.log(i);
         return {
           label: i.title[0],
           data: 'Documents Folder',

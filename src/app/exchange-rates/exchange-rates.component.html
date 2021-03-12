@@ -1,0 +1,7 @@
+<ng-container *ngIf="rates|async as r">
+    <div>
+        <div *ngFor="let r of rate">
+            <p>{{ r.currency }}: {{ r.rate }}</p>
+        </div>
+    </div>
+</ng-container>

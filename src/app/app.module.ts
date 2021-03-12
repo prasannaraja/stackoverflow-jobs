@@ -16,6 +16,10 @@ import { TabViewModule } from 'primeng/tabview';
 import { AvatarModule } from 'primeng/avatar';
 import { TitleCasePipe } from './core/title-case-pipe';
 import { TreeModule } from 'primeng/tree';
+import { GraphQLModule } from './graphql.module';
+import { APOLLO_OPTIONS } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { InMemoryCache } from '@apollo/client/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,8 +41,22 @@ import { TreeModule } from 'primeng/tree';
     ProgressSpinnerModule,
     AvatarModule,
     TreeModule,
+    GraphQLModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory: (httpLink: HttpLink) => {
+        return {
+          cache: new InMemoryCache(),
+          link: httpLink.create({
+            uri: 'https://48p1r2roz4.sse.codesandbox.io',
+          }),
+        };
+      },
+      deps: [HttpLink],
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

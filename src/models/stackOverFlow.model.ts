@@ -32,3 +32,11 @@ export interface Rss {
 export interface StackOverFlowJobs {
   rss: Rss;
 }
+
+export interface StackOverFlowJobsExtended {
+  jobId: number;
+  title: string;
+  location: string;
+  postedDate: Date;
+  link: string;
+}
